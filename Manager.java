@@ -5,7 +5,6 @@ public class Manager extends People {
     // access customer information
     // view driver ratings
     // remove drivers
-    // backGround check (driver)
     // order history
     // management rating
     
