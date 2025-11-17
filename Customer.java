@@ -20,7 +20,7 @@ public class Customer extends Person {
         return cardNum;
     }
 
-    public void setCardNum(){
+    public void setCardNum(String cardNum){
         this.cardNum = cardNum; // ""
     }
 
@@ -29,7 +29,15 @@ public class Customer extends Person {
     }
 
     public void sendOrder(){
-        
+        currentOrder.set;
+    }
+
+    public Order getCurrentOrder(){
+        return currentOrder;
+    }
+
+    public ArrayList<Order> getOrderHistory(){
+        return orderHistory;
     }
 
     // create order method
