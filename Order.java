@@ -17,6 +17,9 @@ public class Order {
     public void addItem(Item){
     }
 
+    public void setStatus(int status){
+        this.status = status;
+    }
     public String getStatus(){
         if (status == 0){
             return "In Cart";
@@ -30,5 +33,6 @@ public class Order {
         if (status == -1){
             return "Cancelled";
         }
+        return "Something broked";
     }
 }

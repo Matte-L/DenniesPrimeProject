@@ -29,7 +29,7 @@ public class Customer extends Person {
     }
 
     public void sendOrder(){
-        currentOrder.set;
+        currentOrder.setStatus(1);
     }
 
     public Order getCurrentOrder(){
