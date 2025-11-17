@@ -1,4 +1,4 @@
-public class Manager extends People {
+public class Manager extends Person {
 
 
     // access private information like payment details

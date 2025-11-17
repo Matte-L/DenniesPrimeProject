@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Customer extends People {
+public class Customer extends Person {
 
     private String address;
     private String cardNum;
@@ -12,7 +12,7 @@ public class Customer extends People {
         return address;
     }
 
-    public void setAdress(){
+    public void setAddress(String address){
         this.address = address;
     }
 
