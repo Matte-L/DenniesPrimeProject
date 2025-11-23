@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Order {
     private Customer customer;
     private Driver driver;
@@ -5,16 +7,32 @@ public class Order {
     private int status;
     private int rating;
 
+    public Order(Customer customer, Driver driver, ArrayList<Item> cart, int status, int rating){ //default toTxt constructor
+        this.customer = customer;
+        this.driver = driver;
+        this.cart = cart;
+        this.status = status;
+        this.rating = rating;
+    }
 
     public void assignDriver(){
         
     }
 
-    public Customer getCustomer(){
-        return Customer;
+    public int total(){         //returns total price of order in cents
+        int total = 0;
+        for (Item item : cart){
+            total += item.getPrice();
+        }
+        return total;
     }
 
-    public void addItem(Item){
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public void addItem(Item item){
+        cart.add(item);
     }
 
     public void setStatus(int status){
@@ -33,6 +51,6 @@ public class Order {
         if (status == -1){
             return "Cancelled";
         }
-        return "Something broked";
+        return "Status unavailable";
     }
 }
