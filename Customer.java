@@ -14,6 +14,9 @@ public class Customer extends Person {
         this.orderHistory=orderHistory;
         this.currentOrder = currentOrder;
     }
+    public Customer(String password, String name, String phoneNumber, String email, String id){
+        super(password, name, phoneNumber, email, id);
+    }
     public String getAddress(){
         return address;
     }
