@@ -27,6 +27,17 @@ public class Main {
         hamburger.print();
         fries.print();
         soda.print();
+
+
+
+
+
+        Export toExport = new Export();
+        toExport.toTxt(tester.getName());
+        toExport.toTxt(tester.getId());
+        toExport.toTxt(tester.getEmail());
+        toExport.toTxt(tester.getPhoneNumber());
+        toExport.toTxt(tester.getPassword());
     }
     
 }
