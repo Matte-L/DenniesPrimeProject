@@ -33,7 +33,7 @@ public class Main {
 
 
         Export toExport = new Export();
-        toExport.toTxt(tester.getName());
+        toExport.toTxt(tester);
         /*toExport.toTxt(tester.getId());
         toExport.toTxt(tester.getEmail());
         toExport.toTxt(tester.getPhoneNumber());
