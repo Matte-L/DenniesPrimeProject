@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 public class Driver extends Person {
      private String vehicle;
 		private double odometer = 0;
@@ -18,12 +17,7 @@ public Driver(String password, String name, String phoneNumber, String email, St
 
 
 	public boolean isDriver(){
-				boolean verify = false;
-
-		if(userID.charAt(0) == 'D'){
-			verify = true;
-		}
-		return verify;
+		return true;
 	}
 
 

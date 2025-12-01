@@ -34,10 +34,10 @@ public class Main {
 
         Export toExport = new Export();
         toExport.toTxt(tester.getName());
-        toExport.toTxt(tester.getId());
+        /*toExport.toTxt(tester.getId());
         toExport.toTxt(tester.getEmail());
         toExport.toTxt(tester.getPhoneNumber());
-        toExport.toTxt(tester.getPassword());
+        toExport.toTxt(tester.getPassword());*/
     }
     
 }
