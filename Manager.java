@@ -8,6 +8,9 @@ public class Manager extends Person {
     // order history
     // management rating
     
-    
+    public Manager(String password, String name, String phoneNumber, String email, String id/*, remainder of full constructor for totxt*/){
+        super(password, name, phoneNumber,email,id);
+        //rest of constructor
+    }
     
 }

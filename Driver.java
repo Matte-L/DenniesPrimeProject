@@ -1,5 +1,5 @@
+import java.util.ArrayList;
 public class Driver extends Person {
-
      private String vehicle;
 		private double odometer = 0;
 		private double raiting = 0;
@@ -8,7 +8,10 @@ public class Driver extends Person {
 		private String deliveryTime;
 
 
-
+public Driver(String password, String name, String phoneNumber, String email, String id/*, remainder of constructor for default totxt*/){
+	super(password,name,phoneNumber,email,id);
+	/*remainder of constructor for default totxt*/
+}
 
 //Temp from order since I need it for code
 		private double distance = 5.5;
