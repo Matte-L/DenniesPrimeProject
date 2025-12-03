@@ -7,6 +7,8 @@ public class Order {
     private int status;
     private int rating;
 
+    public Order(){}
+
     public Order(Customer customer, Driver driver, ArrayList<Item> cart, int status, int rating){ //default toTxt constructor
         this.customer = customer;
         this.driver = driver;
