@@ -1,13 +1,12 @@
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 public class Main{
 
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<Order> allOrders = new ArrayList<>();
     private static CustomerManager customerManager = new CustomerManager();
+    private static DriverManager DriverManager = new DriverManager();
 
     public static void main(String[] args){
 
@@ -52,6 +51,7 @@ public class Main{
 
             case 6:
                 customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
+                DriverManager.saveDriverToFile(); 
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -143,7 +143,23 @@ public class Main{
         System.out.println("Enter driver name");
         String name = scanner.nextLine();
 
+        System.out.println("Enter your car model");
+        String carModel = scanner.nextLine();
+
+        System.out.println("Enter your phone number");
+        String phoneNumber = scanner.nextLine();        
+
+        System.out.println("Enter your current odometer");
+        double odometer = scanner.nextDouble();
+
+        System.out.println("Enter your email");
+        String email = scanner.nextLine();
+        String password = "DriverPassword"; 
+
+
         String driverID = "Driver" + (int)(Math.random() * 10);
+        double raiting = (int)(Math.random());
+        Driver newDriver = DriverManager.createDriver(password, name, phoneNumber, email, driverID, carModel, odometer, raiting);
 
         System.out.println("Driver " + name + "logged in.");
         System.out.println("Driver ID: " + driverID);

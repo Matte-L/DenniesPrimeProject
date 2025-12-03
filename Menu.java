@@ -1,8 +1,8 @@
-import java.util.HashMap;
-import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Menu {
 	HashMap<String, Double> menuItems = new HashMap<>();/* I made an item class if you just wanted to just store a list of items here
