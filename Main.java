@@ -51,7 +51,7 @@ public class Main{
                 break;
 
             case 6:
-                saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
+                customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -77,7 +77,7 @@ public class Main{
         return val;
     }
 
-    private static void customerLogin(){    // CUSTOMER LOGIN ============================== 
+    public static void customerLogin(){    // CUSTOMER LOGIN ============================== 
         System.out.println("\n --- Customer Login ---");
 
         System.out.println("Enter your full name");
@@ -89,27 +89,10 @@ public class Main{
         System.out.println("Enter your email: ");
         String email = scanner.nextLine();
 
-        String password = "PW123";
-        String customerID = "Customer" + (int)(Math.random() * 100); // creates a random number for each customer "represents their ID"
-
-        Customer customer = new Customer(password, name, phone, email, customerID);
-
-        customerManager.addCustomer(customer);
+        Customer customer = customerManager.createCustomer(name, phone, email);
 
         System.out.println("Welcome, " + customer.getName() + "!");
-        System.out.println("Your customer ID: " + customerID);
-    }
-
-    private static void saveCustomerToFile(){               // FILE WRITER FOR CUSTOMERS LIST ////[[[[[[[FOR THRRACKS]]]]]]]\\\\\
-        try(PrintWriter writer = new PrintWriter("customers.txt")){
-
-            for (Customer c: customerManager.getCustomers()){
-                writer.println(c.getName() + ", " + c.getPhoneNumber() + ", " + c.getEmail() + " ," + c.getId());
-                }
-            System.out.println("Customer list has been saved to customers.txt");
-        }catch (FileNotFoundException e){
-            System.out.println("Error saving customer data: " + e.getMessage());
-        }
+        System.out.println("Your customer ID: " + customer.getId());
     }
 
     private static void createOrder(){  // CREATE ORDER ========================================
@@ -157,7 +140,7 @@ public class Main{
     private static void driverLogin(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
 
-        System.out.print("Enter driver name");
+        System.out.println("Enter driver name");
         String name = scanner.nextLine();
 
         String driverID = "Driver" + (int)(Math.random() * 10);
@@ -165,6 +148,10 @@ public class Main{
         System.out.println("Driver " + name + "logged in.");
         System.out.println("Driver ID: " + driverID);
     }
+
+    
+
+
 
     
 

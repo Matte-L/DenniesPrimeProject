@@ -6,7 +6,7 @@ abstract class Person {
     private String email;
     private String id;
 
-    protected Person(String password, String name, String phoneNumber, String email, String id){
+    public Person(String password, String name, String phoneNumber, String email, String id){
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -57,7 +57,14 @@ abstract class Person {
     public String getId(){
         return id;
     }
-//jijkjk
+
+
+    public void displayInfo(){
+        System.out.println("Name: " + name);
+        System.out.println("Phone" + phoneNumber);
+        System.out.println("Email: " + email);
+        System.out.println("ID: " + id);
+    }
 
     
     
