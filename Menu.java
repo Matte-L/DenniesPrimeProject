@@ -37,7 +37,7 @@ public class Menu {
 	}
 
 	public static void viewMenu() {						// ========================== ADDED A FILE READING METHOD FOR THE MENU ================================
-		try (BufferedReader br = new BufferedReader(new FileReader("OnlineOrderTest.txt"))){
+		try (BufferedReader br = new BufferedReader(new FileReader("Menu.txt"))){
 			String line;
 			while((line = br.readLine()) != null){
 				System.out.println(line);

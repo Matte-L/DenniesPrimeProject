@@ -5,6 +5,7 @@ public class Main{
 
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<Order> allOrders = new ArrayList<>();
+    private static CustomerManager customerManager = new CustomerManager();
 
     public static void main(String[] args){
 
@@ -13,7 +14,7 @@ public class Main{
 
 
     while (running){
-        System.out.print("\n====== Dennie's Prime Delivery ======");
+        System.out.println("\n====== Dennie's Prime Delivery ======");
         System.out.println("1. Customer Login");
         System.out.println("2. Manager Login");
         System.out.println("3. Driver Login");
@@ -74,19 +75,19 @@ public class Main{
     }
 
     private static void customerLogin(){    // CUSTOMER LOGIN ============================== 
-        System.out.print("\n --- Customer Login ---");
+        System.out.println("\n --- Customer Login ---");
 
-        System.out.print("Enter your full name");
+        System.out.println("Enter your full name");
         String name = scanner.nextLine();
 
-        System.out.print("Enter your phone number");
+        System.out.println("Enter your phone number");
         String phone = scanner.nextLine();
 
-        System.out.print("Enter your email: ");
+        System.out.println("Enter your email: ");
         String email = scanner.nextLine();
 
         String password = "PW123";
-        String customerID = "Customer" + (int)(Math.random() * 90 + 10); // creates a random number for each customer "represents their ID"
+        String customerID = "Customer" + (int)(Math.random() * 100); // creates a random number for each customer "represents their ID"
 
         Customer customer = new Customer(password, name, phone, email, customerID);
 
@@ -104,14 +105,15 @@ public class Main{
         boolean addingItems = true;
 
         System.out.println("What would you like ?");
-        System.out.println("Enter 'Go away!' when you are finished");
+        System.out.println("Enter 'go away' when you are finished");
 
 
         while(addingItems){
             System.out.print("Item: ");
             String input = scanner.nextLine();
 
-            if(input.equalsIgnoreCase("go away!")){  // ENDS THE ORDER ========================
+            if(input.equalsIgnoreCase("go away")){  // ENDS THE ORDER ========================
+                System.out.println("Thank-you!");
                 addingItems = false;
             }else if (input.trim().isEmpty()){ // avoids white space so empty items aren't added to the list like " ". 
                 System.out.println("Please enter a valid item name");
@@ -129,7 +131,7 @@ public class Main{
             System.out.println("Please Enter Manager's Name");
             String name = scanner.nextLine();
 
-            String managerID = "MGR" + (int)(Math.random() * 90 + 10); // creates random manager ID
+            String managerID = "MGR" + (int)(Math.random() * 10); // creates random manager ID
 
             System.out.println("Manger " + name + " logged in. ");
             System.out.println("Manager ID: " + managerID);
@@ -141,7 +143,7 @@ public class Main{
         System.out.print("Enter driver name");
         String name = scanner.nextLine();
 
-        String driverID = "Driver" + (int)(Math.random() * 90 + 10);
+        String driverID = "Driver" + (int)(Math.random() * 10);
 
         System.out.println("Driver " + name + "logged in.");
         System.out.println("Driver ID: " + driverID);
