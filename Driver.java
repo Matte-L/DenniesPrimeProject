@@ -7,8 +7,8 @@ public class Driver extends Person {
 		private String deliveryTime;
 
 
-public Driver(String password, String name, String phoneNumber, String email, String id, String carModel, double odometer, double raiting/*, remainder of constructor for default totxt*/){
-	super(password,name,phoneNumber,email,id);
+public Driver(String password, String name, String phoneNumber, String email, String carModel, double odometer, double raiting/*, remainder of constructor for default totxt*/){
+	super(password,name,phoneNumber,email);
 	carModel = this.carModel;
 	odometer = this.odometer;
 	raiting = this.raiting;

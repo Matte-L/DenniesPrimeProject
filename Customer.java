@@ -7,15 +7,15 @@ public class Customer extends Person {
     private ArrayList<Order> orderHistory;
     private Order currentOrder;
 
-    public Customer(String password, String name, String phoneNumber, String email, String id, String address, String cardNum, ArrayList<Order> orderHistory, Order currentOrder){ //default constructor for txt
-        super(password, name, phoneNumber,email,id);
+    public Customer(String password, String name, String phoneNumber, String email, String address, String cardNum, ArrayList<Order> orderHistory, Order currentOrder){ //default constructor for txt
+        super(password, name, phoneNumber,email);
         this.address = address;
         this.cardNum = cardNum;
         this.orderHistory=orderHistory;
         this.currentOrder = currentOrder;
     }
-    public Customer(String password, String name, String phoneNumber, String email, String id){
-        super(password, name, phoneNumber, email, id);
+    public Customer(String password, String name, String phoneNumber, String email){
+        super(password, name, phoneNumber, email);
     }
     public String getAddress(){
         return address;

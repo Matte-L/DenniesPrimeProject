@@ -4,7 +4,7 @@ public class Manager extends Person {
     private boolean isManager;
 
     public Manager(String password, String name, String phoneNumber, String email, String id, String managerId){
-        super(password,name,phoneNumber,email,id);
+        super(password,name,phoneNumber,email);
         this.managerId = managerId;
         this.name = name;
         this.isManager = true;
@@ -80,6 +80,6 @@ public class Manager extends Person {
     }
 
     public void addItemToOrder(Order order, Item item) {
-        order.addItem(item)
+        order.addItem(item);
     }
 }

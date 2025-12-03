@@ -4,14 +4,12 @@ abstract class Person {
     private String name;
     private String phoneNumber;
     private String email;
-    private String id;
 
-    public Person(String password, String name, String phoneNumber, String email, String id){
+    public Person(String password, String name, String phoneNumber, String email){
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.id = id;
     }
 
     public boolean login(String email, String password){
@@ -50,20 +48,12 @@ abstract class Person {
         return email;
     }
 
-    public void setId(String id){
-        this.id = id;
-    }
-
-    public String getId(){
-        return id;
-    }
 
 
     public void displayInfo(){
         System.out.println("Name: " + name);
         System.out.println("Phone" + phoneNumber);
         System.out.println("Email: " + email);
-        System.out.println("ID: " + id);
     }
 
     

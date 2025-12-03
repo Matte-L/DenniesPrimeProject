@@ -7,7 +7,7 @@ public class DriverManager{
     public Driver createDriver(String password, String name, String phoneNumber, String email, String driverID, String carModel, double odometer, double raiting){
         
 
-        Driver newDriver = new Driver(password, name, phoneNumber, email, driverID, carModel, odometer, raiting);
+        Driver newDriver = new Driver(password, name, phoneNumber, email, carModel, odometer, raiting);
 
         return newDriver;
     }
@@ -19,7 +19,7 @@ public class DriverManager{
          try(PrintWriter writer = new PrintWriter("drivers.txt")){
 
                 for (Driver d: drivers) {
-                    writer.println(d.getName() + ", " + d.getId() + ", " + d.getPhoneNumber() + ", " + d.getEmail() + ", " + d.getCarModel() + ", " + d.getOdometer() + ", " + d.getRaiting());
+                    writer.println(d.getName() + ", " + d.getPhoneNumber() + ", " + d.getEmail() + ", " + d.getCarModel() + ", " + d.getOdometer() + ", " + d.getRaiting());
                 }
             
          }catch (FileNotFoundException e){

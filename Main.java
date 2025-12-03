@@ -9,15 +9,17 @@ public class Main{
     private static DriverManager DriverManager = new DriverManager();
 
     public static void main(String[] args){
+    
+        customerManager.importCustomers();
 
-
+    
     boolean running = true; // keeps it CLI running until we exit in the switch cases
 
 
     while (running){
         System.out.println("\n====== Dennie's Prime Delivery ======");
-        System.out.println("1. Customer Login");
-        System.out.println("2. Manager Login");
+        System.out.println("1. Customer Sign Up");
+        System.out.println("2. Customer Log In");
         System.out.println("3. Driver Login");
         System.out.println("4. Create an Order");
         System.out.println("5. View Menu");
@@ -28,12 +30,11 @@ public class Main{
 
         switch (choice){
             case 1: 
-                customerLogin();
+                customerSignup();
                 break;
 
             case 2: 
-                managerLogin();
-                // STILL NEEDS WORK
+                customerManager.customerLogin();
                 break;
             
             case 3: 
@@ -61,11 +62,9 @@ public class Main{
         }
     }
 
+}
 
 
-
-
-    }
 
     private static int getIntInput() { // SWTICH CASE INPUT =============================
         while (!scanner.hasNextInt()){ // VERIFIES INTEGER INPUT
@@ -77,8 +76,8 @@ public class Main{
         return val;
     }
 
-    public static void customerLogin(){    // CUSTOMER LOGIN ============================== 
-        System.out.println("\n --- Customer Login ---");
+    public static void customerSignup(){    // CUSTOMER LOGIN ============================== 
+        System.out.println("\n --- Customer Signup ---");
 
         System.out.println("Enter your full name");
         String name = scanner.nextLine();
@@ -88,11 +87,13 @@ public class Main{
 
         System.out.println("Enter your email: ");
         String email = scanner.nextLine();
+        System.out.println("Enter your password: ");
+        String password = scanner.nextLine();
 
-        Customer customer = customerManager.createCustomer(name, phone, email);
+        Customer customer = customerManager.createCustomer(name, phone,email,password);
 
         System.out.println("Welcome, " + customer.getName() + "!");
-        System.out.println("Your customer ID: " + customer.getId());
+    
     }
 
     private static void createOrder(){  // CREATE ORDER ========================================
