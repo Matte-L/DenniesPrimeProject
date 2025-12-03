@@ -21,9 +21,9 @@ public class Manager extends Person {
         System.out.println("Total: $" +(order.total()/100.0));
     }
 
-    public void changeOrder(Order order,int newStatus){
+    /*public void changeOrder(Order order,int newStatus){
         order.setStatus(newStatus);
-    }
+    }*/
 
     public void cancelOrder(Order order){
         order.setStatus(-1);
@@ -62,7 +62,7 @@ public class Manager extends Person {
     }
 
     /*public void fireDriver(Driver driver) {
-        System.out.println("Driver " + driver.getName() + " has been removed from the system.");
+        System.out.println("Driver " +driver.getName() + " has been fired.");
        
     }*/
 
