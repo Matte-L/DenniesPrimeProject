@@ -51,7 +51,7 @@ public class Main{
                 break;
 
             case 6:
-                saveCustomerToFile();
+                saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -68,7 +68,7 @@ public class Main{
     }
 
     private static int getIntInput() { // SWTICH CASE INPUT =============================
-        while (!scanner.hasNextInt()){
+        while (!scanner.hasNextInt()){ // VERIFIES INTEGER INPUT
             System.out.println("Invalid input. Enter a number:");
             scanner.next();
         }
