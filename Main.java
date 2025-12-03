@@ -1,5 +1,7 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 public class Main{
 
@@ -49,6 +51,7 @@ public class Main{
                 break;
 
             case 6:
+                saveCustomerToFile();
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -91,8 +94,22 @@ public class Main{
 
         Customer customer = new Customer(password, name, phone, email, customerID);
 
+        customerManager.addCustomer(customer);
+
         System.out.println("Welcome, " + customer.getName() + "!");
         System.out.println("Your customer ID: " + customerID);
+    }
+
+    private static void saveCustomerToFile(){               // FILE WRITER FOR CUSTOMERS LIST ////[[[[[[[FOR THRRACKS]]]]]]]\\\\\
+        try(PrintWriter writer = new PrintWriter("customers.txt")){
+
+            for (Customer c: customerManager.getCustomers()){
+                writer.println(c.getName() + ", " + c.getPhoneNumber() + ", " + c.getEmail() + " ," + c.getId());
+                }
+            System.out.println("Customer list has been saved to customers.txt");
+        }catch (FileNotFoundException e){
+            System.out.println("Error saving customer data: " + e.getMessage());
+        }
     }
 
     private static void createOrder(){  // CREATE ORDER ========================================
@@ -125,7 +142,7 @@ public class Main{
         }
     }
 
-    private static void managerLogin(){
+    private static void managerLogin(){     // MANAGER LOGIN METHOD
             System.out.println(" --- Manager Login --- ");
 
             System.out.println("Please Enter Manager's Name");
@@ -137,7 +154,7 @@ public class Main{
             System.out.println("Manager ID: " + managerID);
         }
 
-    private static void driverLogin(){
+    private static void driverLogin(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
 
         System.out.print("Enter driver name");
