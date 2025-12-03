@@ -74,7 +74,7 @@ public class Main{
     }
 
     private static void customerLogin(){    // CUSTOMER LOGIN ============================== 
-        System.out.print("\n --- Customer Login ---");
+        System.out.println("\n --- Customer Login ---");
 
         System.out.print("Enter your full name");
         String name = scanner.nextLine();
