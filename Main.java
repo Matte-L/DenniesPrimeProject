@@ -23,7 +23,8 @@ public class Main{
         System.out.println("3. Driver Login");
         System.out.println("4. Create an Order");
         System.out.println("5. View Menu");
-        System.out.println("6. Exit");
+        System.out.println("6. Manager Menu");
+        System.out.println("7. Exit");
 
 
         int choice = getIntInput();
@@ -49,8 +50,12 @@ public class Main{
             case 5: 
                 Menu.viewMenu();
                 break;
+            
+            case 6: 
+                ManagerManager.managerLogin(customerManager, DriverManager, allOrders);
+                break;
 
-            case 6:
+            case 7:
                 customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
                 DriverManager.saveDriverToFile(); 
                 running = false;
@@ -126,17 +131,7 @@ public class Main{
         }
     }
 
-    private static void managerLogin(){     // MANAGER LOGIN METHOD
-            System.out.println(" --- Manager Login --- ");
 
-            System.out.println("Please Enter Manager's Name");
-            String name = scanner.nextLine();
-
-            String managerID = "MGR" + (int)(Math.random() * 10); // creates random manager ID
-
-            System.out.println("Manger " + name + " logged in. ");
-            System.out.println("Manager ID: " + managerID);
-        }
 
     private static void driverLogin(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
