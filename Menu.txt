@@ -1,4 +1,4 @@
-1. Hamburger: 10.00 $
-2. HotDog: 5.00 $
-3. Steak: 20.00 $
-4. Pizza: 4.00 $
+Hamburger:1000
+HotDog:500
+Steak:2000
+Pizza:400

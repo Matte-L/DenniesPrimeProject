@@ -16,7 +16,7 @@ public class Manager extends Person {
     public void viewOrder(Order order){
         System.out.println("Order for: " + (order.getCustomer() != null ? order.getCustomer().getName() : "Unknown"));
         System.out.println("Status: " + order.getStatus());
-        System.out.println("Total: $" + (order.total() / 100.0));
+        System.out.println("Total: " + order.total());
     }
 
     // Cancel an order

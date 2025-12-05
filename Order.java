@@ -1,15 +1,15 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Order {
     private Customer customer;
     private Driver driver;
-    private ArrayList<Item> cart;
+    private HashMap<String,Integer> cart;
     private int status;
     private int rating;
 
     public Order(){}
 
-    public Order(Customer customer, Driver driver, ArrayList<Item> cart, int status, int rating){ //default toTxt constructor
+    public Order(Customer customer, Driver driver, HashMap<String,Integer> cart, int status, int rating){ //default toTxt constructor
         this.customer = customer;
         this.driver = driver;
         this.cart = cart;
@@ -21,20 +21,24 @@ public class Order {
         
     }
 
-    public int total(){         //returns total price of order in cents
+    public String total(){         //returns total price of order formatted
         int total = 0;
-        for (Item item : cart){
-            total += item.getPrice();
+        for (String itemName : cart.keySet()){
+            total += Main.menu.getPrice(itemName)*cart.get(itemName);
         }
-        return total;
+        if (total%100==0){
+            return "$"+total/100+".00";
+        }
+        return "$"+total/100+"."+total%100;
     }
 
     public Customer getCustomer(){
         return customer;
     }
 
-    public void addItem(Item item){
-        cart.add(item);
+    public void addItem(String itemName){
+        cart.putIfAbsent(itemName,1);
+        cart.put(itemName,cart.get(itemName)+1);
     }
 
     public void setStatus(int status){

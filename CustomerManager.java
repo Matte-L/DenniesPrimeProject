@@ -63,6 +63,27 @@ public class CustomerManager {
 
         return customer;
     }
+    public static Customer customerSignup(){    // CUSTOMER LOGIN ============================== 
+        Scanner scnr = new Scanner(System.in); 
+        System.out.println("\n --- Customer Signup ---");
+
+        System.out.println("Enter your full name");
+        String name = scnr.nextLine();
+
+        System.out.println("Enter your phone number");
+        String phone = scnr.nextLine();
+
+        System.out.println("Enter your email: ");
+        String email = scnr.nextLine();
+        System.out.println("Enter your password: ");
+        String password = scnr.nextLine();
+
+        Customer customer = new Customer(name, phone,email,password);
+
+        System.out.println("Welcome, " + customer.getName() + "!");
+        scnr.close();
+        return customer;
+    }
 
     public void saveCustomerToFile(){               // FILE WRITER FOR CUSTOMERS LIST ////[[[[[[[FOR THRRACKS]]]]]]]\\\\\
         try(PrintWriter writer = new PrintWriter("customers.txt")){

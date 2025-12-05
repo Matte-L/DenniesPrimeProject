@@ -45,8 +45,8 @@ public class Customer extends Person {
     public Order getCurrentOrder(){
         return currentOrder;
     }
-    public void newOrder(){
-        currentOrder = new Order();
+    public void setOrder(Order order){
+        currentOrder = order;
     }
 
     public ArrayList<Order> getOrderHistory(){

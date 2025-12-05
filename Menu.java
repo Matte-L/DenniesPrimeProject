@@ -5,49 +5,66 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
-	HashMap<String, Double> menuItems = new HashMap<>();/* I made an item class if you just wanted to just store a list of items here
-	private ArrayList<Item> itemList;
+	public HashMap<String, Integer> menuItems = new HashMap<>();
 
-	public void printMenu(){
-		for (Item item : itemList){
-			item.print();
-		}
-	}	  
-
-	public void addMenuItem(){
-		itemList.add(new Item(input.next(), input.nextint()))
-	}
-	 */
 	Scanner input = new Scanner(System.in);
 	int counter = 0;
 
 	public void addMenuItem(){
 		String itemName = input.next();
-		Double itemPrice = input.nextDouble();
+		Integer itemPrice = input.nextInt();
 		menuItems.put(itemName, itemPrice);
 	}
 
-	public String printMenu(){
-		for(int i =0; i<menuItems.size(); i++){
-			counter = counter +1;
-			System.out.println(counter + ". " + menuItems.get(counter));
+	public String priceFormat(String name){
+		if (menuItems.get(name)%100 == 0){
+			return "$"+menuItems.get(name)/100+".00";
 		}
-
-	return "";
+		return "$"+menuItems.get(name)/100 + "."+menuItems.get(name)%100;
 	}
-
-	public static void viewMenu() {						// ========================== ADDED A FILE READING METHOD FOR THE MENU ================================
-		try (BufferedReader br = new BufferedReader(new FileReader("Menu.txt"))){
-			String line;
-			while((line = br.readLine()) != null){
-				System.out.println(line);
-			}															
-		} catch(IOException e){
-			System.out.println("Error reading menu file");
+	public void viewMenu() {						// ========================== ADDED A FILE READING METHOD FOR THE MENU ================================
+		int counter = 1;
+		for (String name : menuItems.keySet()){
+			System.out.println(counter + ". "+name+": "+ priceFormat(name));
+			counter++;
 		}
 	}
+	public int getPrice(String name){
+		return menuItems.get(name);
+	}
 
-
-
+    public Menu(){
+        menuItems = new HashMap<>();
+        char c;
+        String name = "";
+        String price = "";
+        boolean flip = false;
+        try(BufferedReader reader = new BufferedReader(new FileReader("menu.txt"))){
+            while(reader.ready()){
+                c = (char)reader.read();
+                switch (c){
+                    case ':':
+                        flip = true;
+                        break;
+                    case '\n':
+                        menuItems.put(name,Integer.parseInt(price.trim()));
+                        name = "";
+                        price = "";
+                        flip = false;
+                        break;
+                    default:
+                        if (flip==false){
+                            name +=c;
+                        } else{
+                            price+=c;
+                        }
+						break;
+                }
+                
+            }
+        }catch(IOException e){
+            System.out.println("!! === Error loading menu === !!");
+        }
+    }
 }
 

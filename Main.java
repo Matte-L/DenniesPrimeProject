@@ -7,11 +7,13 @@ public class Main{
     private static ArrayList<Order> allOrders = new ArrayList<>();
     private static CustomerManager customerManager = new CustomerManager();
     private static DriverManager DriverManager = new DriverManager();
+    public static Menu menu = new Menu();
 
     public static void main(String[] args){
-    
+        
         customerManager.importCustomers();
-
+        Menu menu = new Menu();
+        Person activeUser;
     
     boolean running = true; // keeps it CLI running until we exit in the switch cases
 
@@ -31,11 +33,13 @@ public class Main{
 
         switch (choice){
             case 1: 
-                customerSignup();
+                activeUser = CustomerManager.customerSignup();
+                createOrder(menu);
                 break;
 
             case 2: 
-                customerManager.customerLogin();
+                activeUser = customerManager.customerLogin();
+                createOrder(menu);
                 break;
             
             case 3: 
@@ -44,11 +48,11 @@ public class Main{
                 break;
             
             case 4: 
-                createOrder();
+                createOrder(menu);
                 break;
 
             case 5: 
-                Menu.viewMenu();
+                menu.viewMenu();
                 break;
             
             case 6: 
@@ -81,31 +85,13 @@ public class Main{
         return val;
     }
 
-    public static void customerSignup(){    // CUSTOMER LOGIN ============================== 
-        System.out.println("\n --- Customer Signup ---");
 
-        System.out.println("Enter your full name");
-        String name = scanner.nextLine();
 
-        System.out.println("Enter your phone number");
-        String phone = scanner.nextLine();
-
-        System.out.println("Enter your email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter your password: ");
-        String password = scanner.nextLine();
-
-        Customer customer = customerManager.createCustomer(name, phone,email,password);
-
-        System.out.println("Welcome, " + customer.getName() + "!");
-    
-    }
-
-    private static void createOrder(){  // CREATE ORDER ========================================
+    private static Order createOrder(Menu menu){  // CREATE ORDER ========================================
         
         System.out.println(" --- Create an Order --- ");
 
-        Menu.viewMenu();
+        menu.viewMenu();
 
         Order order = new Order();
         boolean addingItems = true;
@@ -124,11 +110,12 @@ public class Main{
             }else if (input.trim().isEmpty()){ // avoids white space so empty items aren't added to the list like " ". 
                 System.out.println("Please enter a valid item name");
             }else{
-                Item newItem = new Item(input, 1000);
-                order.addItem(newItem);
+                
+                order.addItem(input);
                 System.out.println(input + " added to order");
             }
         }
+        return order;
     }
 
 
@@ -160,6 +147,8 @@ public class Main{
         System.out.println("Driver " + name + "logged in.");
         System.out.println("Driver ID: " + driverID);
     }
+    
+
 
     
 
