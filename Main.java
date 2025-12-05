@@ -34,12 +34,12 @@ public class Main{
         switch (choice){
             case 1: 
                 activeUser = CustomerManager.customerSignup();
-                createOrder(menu);
+                createOrder();
                 break;
 
             case 2: 
                 activeUser = customerManager.customerLogin();
-                createOrder(menu);
+                createOrder();
                 break;
             
             case 3: 
@@ -48,7 +48,7 @@ public class Main{
                 break;
             
             case 4: 
-                createOrder(menu);
+                createOrder();
                 break;
 
             case 5: 
@@ -87,11 +87,11 @@ public class Main{
 
 
 
-    private static Order createOrder(Menu menu){  // CREATE ORDER ========================================
+    private static Order createOrder(){  // CREATE ORDER ========================================
         
         System.out.println(" --- Create an Order --- ");
 
-        menu.viewMenu();
+        Main.menu.viewMenu();
 
         Order order = new Order();
         boolean addingItems = true;
