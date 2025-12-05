@@ -1,4 +1,4 @@
 Hamburger:1000
-HotDog:500
+Hot Dog:500
 Steak:2000
 Pizza:400

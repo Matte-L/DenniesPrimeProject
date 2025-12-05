@@ -12,7 +12,6 @@ public class Main{
     public static void main(String[] args){
         
         customerManager.importCustomers();
-        Menu menu = new Menu();
         Person activeUser;
     
     boolean running = true; // keeps it CLI running until we exit in the switch cases
