@@ -29,75 +29,34 @@ public class Order {
     }
     public static ArrayList<Order> importOrders(){
         ArrayList<Order> orders = new ArrayList<>();
-
+        String line;
         try (BufferedReader reader = new BufferedReader(new FileReader("orders.txt"))){
-            char c;
-            String customerEmail = "";
-            String driverEmail = "";
-            String itemName = "";
-            String itemQuant = "";
-            HashMap<String,Integer> itemMap = new HashMap<>();
-            String status = "";
-            String rating = "";
-            int state = 0;
-            boolean subState = true;
-            while (reader.ready()){
-                c = (char)reader.read();
+            while((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length!=7){
+                    String customerEmail = data[0];
+                    String driverEmail = data[1];
+                    String itemName = data[2];
+                    String itemQuant = data[3];
+                    String[] map = data[4].split(">");
+                    HashMap<String,Integer> hashMap = new HashMap<>();
+                    for(String s : map){
+                        String[] pair = s.split("<");
+                        hashMap.put(pair[0],Integer.parseInt(pair[1]));
+                    }
+                    String status = data[5];
+                    String rating = data[6];
+                    orders.add(new Order(customer,))
+                }
 
 
-                switch (c){
-                    case '\n':
-                        Customer cust = null;
-                        Driver driv = null;
-                        for (Customer cu : Main.customerManager.getCustomers()){
-                            if (cu.getEmail().equals(customerEmail)){
-                                cust = cu;
-                            }
-                        }
-                        for (Driver dr : Main.driverManager.getDrivers()){
-                            if (dr.getEmail().equals(driverEmail)){
-                                driv = dr;
-                            }
-                        }
-                        orders.add(new Order(cust,driv,itemMap,Integer.parseInt(status.trim()),Integer.parseInt(rating.trim())));
-                        break;
-                    case '|':
-                        state++;
-                        break;
-                    case '<':
-                        subState = false;
-                        break;
-                    case '>':
-                        subState = true;
-                        itemMap.put(itemName,Integer.parseInt(itemQuant.trim()));
-                        break;
-                    default:
-                        switch (state){
-                            case 0:
-                                customerEmail+=c;
-                                break;
-                            case 1:
-                                driverEmail+=c;
-                            case 2:
-                                if (subState){
-                                    itemName+=c;
-                                } else{
-                                    itemQuant+=c;
-                                }
-                                break;
-                            case 3:
-                                status+=c;
-                                break;
-                            case 4:
-                                rating+=c;
-                                break;
-                            default:
-                                System.out.println("Error loading orders.");
-                        }
+                
 
                 }
-            }
-        } catch (IOException e){
+            } catch (IOException e){
             System.out.println("Error reading orders.");
         }
 
@@ -107,11 +66,11 @@ public class Order {
     public static void exportOrders(){
         try (PrintWriter writer = new PrintWriter("orders.txt")){
             for (Order order : Main.allOrders){
-                writer.write(order.getCustomer().getEmail()+"|"+order.getDriver().getEmail()+'|');
+                writer.write(order.getCustomer().getEmail()+","+order.getDriver().getEmail()+',');
                 for (String key : order.getCart().keySet()){
                     writer.write(key + "<"+order.getCart().get(key)+">");
                 }
-                writer.write("|"+order.getStatus()+"|"+order.getRating()+'\n');
+                writer.write(","+order.getStatus()+","+order.getRating()+'\n');
             }
         } catch (IOException e){
             System.out.println("Error exporting orders to file.");
