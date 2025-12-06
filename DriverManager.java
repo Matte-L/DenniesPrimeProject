@@ -19,20 +19,21 @@ public class DriverManager{
         Scanner scnr = new Scanner(System.in);
         System.out.println("Enter driver name");
         String name = scnr.nextLine();
-
+        System.out.println("Enter your email");
+        String email = scnr.nextLine();
         System.out.println("Enter your car model");
         String carModel = scnr.nextLine();
 
         System.out.println("Enter your phone number");
         String phoneNumber = scnr.nextLine();        
 
-        System.out.println("Enter your current odometer");
-        double odometer = scnr.nextDouble();
+        System.out.println("Enter your password");
+        String password = scnr.nextLine();
 
-        System.out.println("Enter your email");
-        scnr.next();
-        String email = scnr.nextLine();
-        String password = "DriverPassword"; 
+        do {
+            System.out.println("Enter your current odometer");
+        } while (!scnr.hasNextDouble());
+        double odometer = scnr.nextDouble();
 
         double raiting = Math.random();
         drivers.add(new Driver(password,name,phoneNumber,email,carModel,odometer,raiting));       
