@@ -1,4 +1,4 @@
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -35,80 +35,44 @@ public class DriverManager{
         } while (!scnr.hasNextDouble());
         double odometer = scnr.nextDouble();
 
-        double raiting = Math.random();
+        double raiting = Math.random()*10;
         drivers.add(new Driver(password,name,phoneNumber,email,carModel,odometer,raiting));       
         System.out.println("Driver " + name + " signed up.");
     }
     public void importDrivers(){
-        String name = "";
-        String password = "";
-        String phone = "";
-        String email = "";
-        String model = "";
-        String odo = "";
-        String rating = "";
-        int state = 0;
+        String line; 
         try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
-            char c;
-            while (reader.ready()){
-                c = (char)reader.read();
+            while ((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }                
 
-                switch(c){
-                    case('\n'):
-                        drivers.add(new Driver(password,name,phone,email,model,Double.parseDouble(odo.trim()),Double.parseDouble(rating.trim())));
-                        name = "";
-                        password = "";
-                        phone = "";
-                        email = "";
-                        model = "";
-                        odo = "";
-                        rating = "";
-                        state = 0;
-                        break;
-                    case(','):
-                        state++;
-                        break;
-                    default:
-                        switch (state){
-                            case 0:
-                                name+=c;
-                                break;
-                            case 1:
-                                password+=c;
-                                break;
-                            case 2:
-                                phone += c;
-                                break;
-                            case 3:
-                                email +=c;
-                                break;
-                            case 4:
-                                model+=c;
-                                break;
-                            case 5:
-                                odo+=c;
-                                break;
-                            case 6:
-                                rating +=c;
-                                break;
-                            default:
-                                System.out.println("Error writing drivers.");
-                        }
-
-                }
+            String[] data = line.split(",");
+            if (data.length!=7){
+                System.out.println("Error reading line of Driver");
+                continue;
             }
-        } catch (Exception e){
-            System.out.println("Error importing drivers.");
+            String email = data[0];
+            String password = data[1];
+            String name = data[2];
+            String phone = data[3];
+            String model = data[4];
+            double odo = Double.parseDouble(data[5]);
+            double rating = Double.parseDouble(data[6]);
+            drivers.add(new Driver(password,name,phone,email,model,odo,rating));
+            }
+        }catch (IOException e){
+            System.out.println("Error reading drivers");
         }
     }
 
     public void saveDriverToFile(){
          try(PrintWriter writer = new PrintWriter("drivers.txt")){
                 for (Driver d: drivers) {
-                    writer.println(d.getName() +","+ d.getPassword()+"," + d.getPhoneNumber() + "," + d.getEmail() + "," + d.getCarModel() + "," + d.getOdometer() + "," + d.getRaiting()+"\n");
+                    writer.println(d.getName() +","+ d.getPassword()+"," + d.getPhoneNumber() + "," + d.getEmail() + "," + d.getCarModel() + "," + d.getOdometer() + "," + d.getRaiting());
                 }
             
-         }catch (FileNotFoundException e){
+         }catch (IOException e){
             System.out.println("Error saving driver data: " + e.getMessage());
         }
         System.out.println("Drivers exported.");
