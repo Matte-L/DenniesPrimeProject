@@ -1,1 +1,3 @@
 matt.com,mat@mail.com,Hamburger<1>Pizza<1>Hot Dog<1>Steak<3,0,0
+email.com,mat@mail.com,,0,0
+timtimtimt.com,tim.com,,0,0
