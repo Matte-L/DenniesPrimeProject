@@ -12,6 +12,7 @@ public class Main{
     public static void main(String[] args){
         
         customerManager.importCustomers();
+        driverManager.importDrivers();
         Person activeUser;
     
     boolean running = true; // keeps it CLI running until we exit in the switch cases
@@ -32,7 +33,7 @@ public class Main{
 
         switch (choice){
             case 1: 
-                activeUser = CustomerManager.customerSignup();
+                activeUser = customerManager.customerSignup();
                 createOrder(activeUser);
                 break;
 
@@ -61,7 +62,7 @@ public class Main{
             case 7:
                 customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
                 driverManager.saveDriverToFile();
-                Order.exportOrders();
+                //Order.exportOrders();
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;

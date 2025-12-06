@@ -1,6 +1,8 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class DriverManager{
 
@@ -13,7 +15,21 @@ public class DriverManager{
     }
 
 
+    public void importDrivers(){
+        try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
+            char c;
 
+            while (reader.ready()){
+                c = (char)reader.read();
+                
+                switch(c){
+                    
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Error importing drivers.");
+        }
+    }
 
     public void saveDriverToFile(){
          try(PrintWriter writer = new PrintWriter("drivers.txt")){

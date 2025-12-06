@@ -63,7 +63,7 @@ public class CustomerManager {
 
         return customer;
     }
-    public static Customer customerSignup(){    // CUSTOMER LOGIN ============================== 
+    public Customer customerSignup(){    // CUSTOMER LOGIN ============================== 
         Scanner scnr = new Scanner(System.in); 
         System.out.println("\n --- Customer Signup ---");
 
@@ -79,7 +79,7 @@ public class CustomerManager {
         String password = scnr.nextLine();
 
         Customer customer = new Customer(password,name,phone,email);
-
+        customers.add(customer);
         System.out.println("Welcome, " + customer.getName() + "!");
         
         return customer;
