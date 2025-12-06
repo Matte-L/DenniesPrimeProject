@@ -36,15 +36,16 @@ public class Order {
                     continue;
                 }
                 String[] data = line.split(",");
-                if (data.length!=7){
+                if (data.length!=5){
                     System.out.println("Skipping order: " + line);
                     continue;
                 }
                     String customerEmail = data[0];
                     String driverEmail = data[1];
                     String cartString = data[2];
-                    int status = Integer.parseInt(data[5]);
-                    int rating = Integer.parseInt(data[6]);
+
+                    int status = Integer.parseInt(data[3]);
+                    int rating = Integer.parseInt(data[4]);
                     // looks up customer and driver objects
 
                     Customer customer = Main.customerManager.findCustomerByEmail(customerEmail);
@@ -56,7 +57,11 @@ public class Order {
                     }
                     if(driver == null){
                         System.out.println("Warning: driver not found: " + driverEmail);
-                        continue;
+                        if (status == 1){
+                            
+                        }else{
+                            continue;
+                        }
                     }
 
                     HashMap<String, Integer> cart = new HashMap<>();
@@ -77,26 +82,36 @@ public class Order {
             } catch (IOException e){
             System.out.println("Error reading orders.");
         }
-
+        System.out.println("Orders imported");
         return orders;
     }
     
     public static void exportOrders(){
         try (PrintWriter writer = new PrintWriter("orders.txt")){
             for (Order order : Main.allOrders){
-                writer.write(order.getCustomer().getEmail()+","+order.getDriver().getEmail()+',');
-                for (String key : order.getCart().keySet()){
-                    writer.write(key + "<"+order.getCart().get(key)+">");
+                writer.write(order.getCustomer().getEmail()+",");
+                if (order.getDriver()!=null){
+                    writer.write(order.getDriver().getEmail());
                 }
-                writer.write(","+order.getStatus()+","+order.getRating()+'\n');
+                writer.write(",");
+                int count = 0;
+                for (String key : order.getCart().keySet()){
+                    count++;
+                    writer.write(key + "<"+order.getCart().get(key));
+                    if (count < order.getCart().size()){
+                        writer.write(">");
+                    }
+                }
+                writer.write(","+order.status+","+order.getRating()+'\n');
             }
+            System.out.println("Orders exported");
         } catch (IOException e){
             System.out.println("Error exporting orders to file.");
         }
     }
 
     public void assignDriver(){
-        
+        driver = Main.driverManager.giveTopDriver();
     }
     public int getRating(){
         return rating;

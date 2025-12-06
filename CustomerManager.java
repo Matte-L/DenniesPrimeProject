@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 public class CustomerManager {
     private ArrayList<Customer> customers = new ArrayList<>();
-    public void importCustomers(){
+    public CustomerManager(){
         String line; 
         try(BufferedReader reader = new BufferedReader(new FileReader("customers.txt"))){
             while ((line = reader.readLine())!=null){
@@ -31,7 +31,9 @@ public class CustomerManager {
         }catch (IOException e){
             System.out.println("IO error");
         }
+        System.out.println("Customers imported");
     }
+    
     public Customer createCustomer(String name, String phone, String email, String password){
 
         Customer customer = new Customer(password, name, phone, email);

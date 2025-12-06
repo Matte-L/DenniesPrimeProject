@@ -3,7 +3,7 @@ public class Driver extends Person {
 		private double odometer;
 		private double raiting;
 		private String carModel;
-		private String currentOrder;
+		private Order currentOrder;
 		private String deliveryTime;
 
 
@@ -23,7 +23,6 @@ public Driver(String password, String name, String phoneNumber, String email, St
 	public boolean isDriver(){
 		return true;
 	}
-
 
 
 	public void setOdometer(){
@@ -64,15 +63,15 @@ public Driver(String password, String name, String phoneNumber, String email, St
 
 
 
-	public void setCurrentOrder(String userInput){
-		this.currentOrder = userInput;		
+	public void setCurrentOrder(Order d){
+		this.currentOrder = d;		
 	}
 
 
 
 
 
-	public String getCurrentOrder(){
+	public Order getCurrentOrder(){
 		return currentOrder;
 	}
 

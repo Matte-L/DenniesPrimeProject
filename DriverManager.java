@@ -1,19 +1,57 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.util.Comparator;
 
 public class DriverManager{
+    private ArrayList<Driver> drivers = new ArrayList<>();
 
+    public DriverManager(){
+        String line; 
+        try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
+            while ((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }                
+
+            String[] data = line.split(",");
+            if (data.length!=7){
+                System.out.println("Error reading line of Driver");
+                continue;
+            }
+            String name = data[0];
+            String password = data[1];
+            String phone = data[2];
+            String email = data[3];
+            String model = data[4];
+            double odo = Double.parseDouble(data[5]);
+            double rating = Double.parseDouble(data[6]);
+            drivers.add(new Driver(password,name,phone,email,model,odo,rating));
+            }
+            System.out.println("Drivers imported");
+        }catch (IOException e){
+            System.out.println("Error reading drivers");
+        }
+        for (Driver d : drivers){
+            if (d.getCurrentOrder()==null){
+                driverQ.add(d);
+            }
+        }
+
+    }
     public Driver createDriver(String password, String name, String phoneNumber, String email, String carModel, double odometer, double raiting){
         Driver newDriver = new Driver(password, name, phoneNumber, email, carModel, odometer, raiting);
 
-        Main.driverManager.getDrivers().add(newDriver);        
+        drivers.add(newDriver);        
         return newDriver;
     }
-
+    private PriorityQueue<Driver> driverQ = new PriorityQueue<>( //stores all available drivers sorted by rating
+        Comparator.comparingDouble(Driver::getRaiting)
+    );
     public void driverLogin(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
         Scanner scnr = new Scanner(System.in);
@@ -39,32 +77,6 @@ public class DriverManager{
         drivers.add(new Driver(password,name,phoneNumber,email,carModel,odometer,raiting));       
         System.out.println("Driver " + name + " signed up.");
     }
-    public void importDrivers(){
-        String line; 
-        try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
-            while ((line = reader.readLine())!=null){
-                if (line.trim().isEmpty()){
-                    continue;
-                }                
-
-            String[] data = line.split(",");
-            if (data.length!=7){
-                System.out.println("Error reading line of Driver");
-                continue;
-            }
-            String email = data[0];
-            String password = data[1];
-            String name = data[2];
-            String phone = data[3];
-            String model = data[4];
-            double odo = Double.parseDouble(data[5]);
-            double rating = Double.parseDouble(data[6]);
-            drivers.add(new Driver(password,name,phone,email,model,odo,rating));
-            }
-        }catch (IOException e){
-            System.out.println("Error reading drivers");
-        }
-    }
 
     public void saveDriverToFile(){
          try(PrintWriter writer = new PrintWriter("drivers.txt")){
@@ -79,10 +91,13 @@ public class DriverManager{
     }
 
 
-    private ArrayList<Driver> drivers = new ArrayList<>();
+
 
     public void addDriver(Driver d){
         drivers.add(d);
+    }
+    public Driver giveTopDriver(){
+        return driverQ.poll();
     }
 
     public ArrayList<Driver> getDrivers(){

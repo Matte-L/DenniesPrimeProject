@@ -10,12 +10,11 @@ public class Main{
     public static ArrayList<Order> allOrders = Order.importOrders();
 
     public static void main(String[] args){
-        
-        
-        customerManager.importCustomers();
-        driverManager.importDrivers();
         for(Customer c : customerManager.getCustomers()){
             System.out.println(c.getEmail());
+        }
+        for(Driver d : driverManager.getDrivers()){
+            System.out.println(d.getEmail());
         }
         Person activeUser;
     
@@ -125,7 +124,7 @@ public class Main{
         }
         allOrders.add(cust.getOrder());
         cust.getOrder().assignDriver();
-        return cust.getOrder();
+        return cust.getCurrentOrder();
     }
 
 
