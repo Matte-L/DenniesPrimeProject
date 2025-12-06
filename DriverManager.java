@@ -40,21 +40,30 @@ public class DriverManager{
         System.out.println("Driver " + name + " signed up.");
     }
     public void importDrivers(){
+        String name = "";
+        String password = "";
+        String phone = "";
+        String email = "";
+        String model = "";
+        String odo = "";
+        String rating = "";
+        int state = 0;
         try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
             char c;
             while (reader.ready()){
                 c = (char)reader.read();
-                String name = "";
-                String password = "";
-                String phone = "";
-                String email = "";
-                String model = "";
-                String odo = "";
-                String rating = "";
-                int state = 0;
+
                 switch(c){
                     case('\n'):
-                        drivers.add(new Driver(password,name,phone,email,model,Double.parseDouble(odo),Double.parseDouble(rating)));
+                        drivers.add(new Driver(password,name,phone,email,model,Double.parseDouble(odo.trim()),Double.parseDouble(rating.trim())));
+                        name = "";
+                        password = "";
+                        phone = "";
+                        email = "";
+                        model = "";
+                        odo = "";
+                        rating = "";
+                        state = 0;
                         break;
                     case(','):
                         state++;
