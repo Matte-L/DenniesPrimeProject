@@ -10,9 +10,13 @@ public class Main{
     public static ArrayList<Order> allOrders = Order.importOrders();
 
     public static void main(String[] args){
+        System.out.println();
+        System.out.println("== Current customer list ==");
         for(Customer c : customerManager.getCustomers()){
             System.out.println(c.getEmail());
         }
+        System.out.println();
+        System.out.println("== Current driver list ==");
         for(Driver d : driverManager.getDrivers()){
             System.out.println(d.getEmail());
         }
@@ -37,6 +41,7 @@ public class Main{
         switch (choice){
             case 1: 
                 activeUser = customerManager.customerSignup();
+                customerManager.saveCustomerToFile();
                 createOrder(activeUser);
                 break;
 
@@ -47,7 +52,7 @@ public class Main{
             
             case 3: 
                 driverManager.driverLogin();
-                // STILL NEEDS WORK
+                driverManager.saveDriverToFile();
                 break;
             
             case 4: 
@@ -63,8 +68,8 @@ public class Main{
                 break;
 
             case 7:
-                customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
-                driverManager.saveDriverToFile();
+                //customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC           [[[THESE WERE MOVED TO DESIGNATED CASE TO WRITE AFTER EACH SIGNUP]]]
+                //driverManager.saveDriverToFile();
                 Order.exportOrders();
                 running = false;
                 System.out.println("Thank-you for visiting");
