@@ -78,10 +78,10 @@ public class CustomerManager {
         System.out.println("Enter your password: ");
         String password = scnr.nextLine();
 
-        Customer customer = new Customer(name, phone,email,password);
+        Customer customer = new Customer(password,name,phone,email);
 
         System.out.println("Welcome, " + customer.getName() + "!");
-        scnr.close();
+        
         return customer;
     }
 

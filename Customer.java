@@ -20,6 +20,9 @@ public class Customer extends Person {
     public String getAddress(){
         return address;
     }
+    public Order getOrder(){
+        return currentOrder;
+    }
 
     public void setAddress(String address){
         this.address = address;

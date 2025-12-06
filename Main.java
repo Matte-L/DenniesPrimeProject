@@ -4,10 +4,10 @@ import java.util.Scanner;
 public class Main{
 
     private static Scanner scanner = new Scanner(System.in);
-    public static ArrayList<Order> allOrders = Order.importOrders();
     public static CustomerManager customerManager = new CustomerManager();
-    public static DriverManager DriverManager = new DriverManager();
+    public static DriverManager driverManager = new DriverManager();
     public static Menu menu = new Menu();
+    public static ArrayList<Order> allOrders = Order.importOrders();
 
     public static void main(String[] args){
         
@@ -55,12 +55,13 @@ public class Main{
                 break;
             
             case 6: 
-                ManagerManager.managerLogin(customerManager, DriverManager, allOrders);
+                ManagerManager.managerLogin(customerManager, driverManager, allOrders);
                 break;
 
             case 7:
                 customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
-                DriverManager.saveDriverToFile(); 
+                driverManager.saveDriverToFile();
+                Order.exportOrders();
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -80,19 +81,18 @@ public class Main{
             scanner.next();
         }
         int val = scanner.nextInt();
-        scanner.nextLine();
+        scanner.reset();
         return val;
     }
 
 
 
     private static Order createOrder(Person c){  // CREATE ORDER ========================================
-        
+        Customer cust = (Customer)c;
         System.out.println(" --- Create an Order --- ");
 
         Main.menu.viewMenu();
-
-        Order order = new Order(c);
+        cust.setOrder(new Order(c));
         boolean addingItems = true;
 
         System.out.println("What item number would you like?");
@@ -101,24 +101,26 @@ public class Main{
 
         while(addingItems){
             System.out.print("Item number: ");
-            int input = getIntInput();
+            int input = Main.getIntInput();
 
             if (input==0){
                 System.out.println("Thank-you!");
                 addingItems = false;
-                order.cartPrint();
+                cust.getOrder().cartPrint();
                 break;
             } else if (input>0&&input<=Main.menu.getMenuItems().size()){
-                    order.addItem(Main.menu.getMenuItems().keySet().toArray(new String[0])[input-1]);
+                    cust.getOrder().addItem(Main.menu.getMenuItems().keySet().toArray(new String[0])[input-1]);
                     System.out.println(Main.menu.getMenuItems().keySet().toArray()[input-1]+" added to order");
             } else{
                 System.out.println("Invalid Number");
             }
-            System.out.println("Your total is: "+ order.total());
+            System.out.println("Your total is: "+ cust.getOrder().total());
             Main.menu.viewMenu();
             System.out.println("Enter '0' to complete order.");
         }
-        return order;
+        allOrders.add(cust.getOrder());
+        cust.getOrder().assignDriver();
+        return cust.getOrder();
     }
 
 
@@ -145,7 +147,7 @@ public class Main{
 
         String driverID = "Driver" + (int)(Math.random() * 10);
         double raiting = (int)(Math.random());
-        Driver newDriver = DriverManager.createDriver(password, name, phoneNumber, email, driverID, carModel, odometer, raiting);
+        Driver newDriver = driverManager.createDriver(password, name, phoneNumber, email, driverID, carModel, odometer, raiting);
 
         System.out.println("Driver " + name + "logged in.");
         System.out.println("Driver ID: " + driverID);
