@@ -1,8 +1,8 @@
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Scanner;
 
 public class DriverManager{
@@ -10,7 +10,7 @@ public class DriverManager{
     public Driver createDriver(String password, String name, String phoneNumber, String email, String carModel, double odometer, double raiting){
         Driver newDriver = new Driver(password, name, phoneNumber, email, carModel, odometer, raiting);
 
-        Main.driverManager.getDrivers().add(newDriver);        
+        Main.DriverManager.getDrivers().add(newDriver);        
         return newDriver;
     }
 

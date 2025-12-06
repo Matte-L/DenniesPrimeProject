@@ -1,8 +1,8 @@
 public class Driver extends Person {
      
-		private double odometer;
-		private double raiting;
-		private String carModel;
+		private double odometer = 0;
+		private double raiting = 0;
+		private String carModel = "1978 Boogati";
 		private String currentOrder;
 		private String deliveryTime;
 
@@ -26,8 +26,8 @@ public Driver(String password, String name, String phoneNumber, String email, St
 
 
 
-	public void setOdometer(){
-		odometer = odometer + distance;
+	public void setOdometer(int newOdometer){
+		odometer = newOdometer;
 	}
 
 
@@ -43,7 +43,7 @@ public Driver(String password, String name, String phoneNumber, String email, St
 
 	public double getRaiting(){
 		
-		return raiting;
+		return -1;
 	}
 
 
