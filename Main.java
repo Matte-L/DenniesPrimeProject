@@ -43,7 +43,7 @@ public class Main{
                 break;
             
             case 3: 
-                driverLogin();
+                driverManager.driverLogin();
                 // STILL NEEDS WORK
                 break;
             
@@ -126,33 +126,7 @@ public class Main{
 
 
 
-    private static void driverLogin(){      // DRIVER LOGIN METHOD
-        System.out.println(" --- Driver Login --- ");
 
-        System.out.println("Enter driver name");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter your car model");
-        String carModel = scanner.nextLine();
-
-        System.out.println("Enter your phone number");
-        String phoneNumber = scanner.nextLine();        
-
-        System.out.println("Enter your current odometer");
-        double odometer = scanner.nextDouble();
-
-        System.out.println("Enter your email");
-        String email = scanner.nextLine();
-        String password = "DriverPassword"; 
-
-
-        String driverID = "Driver" + (int)(Math.random() * 10);
-        double raiting = (int)(Math.random());
-        Driver newDriver = driverManager.createDriver(password, name, phoneNumber, email, driverID, carModel, odometer, raiting);
-
-        System.out.println("Driver " + name + "logged in.");
-        System.out.println("Driver ID: " + driverID);
-    }
     
 
 

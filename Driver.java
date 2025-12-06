@@ -1,17 +1,17 @@
 public class Driver extends Person {
      
-		private double odometer = 0;
-		private double raiting = 0;
-		private String carModel = "1978 Boogati";
+		private double odometer;
+		private double raiting;
+		private String carModel;
 		private String currentOrder;
 		private String deliveryTime;
 
 
 public Driver(String password, String name, String phoneNumber, String email, String carModel, double odometer, double raiting/*, remainder of constructor for default totxt*/){
 	super(password,name,phoneNumber,email);
-	carModel = this.carModel;
-	odometer = this.odometer;
-	raiting = this.raiting;
+	this.carModel = carModel;
+	this.odometer = odometer;
+	this.raiting = raiting;
 
 	/*remainder of constructor for default totxt*/
 }
@@ -43,7 +43,7 @@ public Driver(String password, String name, String phoneNumber, String email, St
 
 	public double getRaiting(){
 		
-		return -1;
+		return raiting;
 	}
 
 
