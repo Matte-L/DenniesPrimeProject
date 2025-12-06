@@ -79,13 +79,26 @@ public class DriverManager{
     }
 
 
-private ArrayList<Driver> drivers = new ArrayList<>();
+    private ArrayList<Driver> drivers = new ArrayList<>();
 
-public void addDriver(Driver d){
-    drivers.add(d);
-}
+    public void addDriver(Driver d){
+        drivers.add(d);
+    }
 
-public ArrayList<Driver> getDrivers(){
-    return drivers;
-}
+    public ArrayList<Driver> getDrivers(){
+        return drivers;
+    }
+
+    public Driver findDriverByEmail(String email){
+        for (Driver d : drivers){
+            if (d.getEmail().equalsIgnoreCase(email)){
+                return d;
+            }
+        }
+        return null;
+    }
+    
+
+
+
 }

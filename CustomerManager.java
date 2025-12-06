@@ -106,4 +106,14 @@ public class CustomerManager {
     public ArrayList<Customer> getCustomers(){
         return customers;
     }
+
+    public Customer findCustomerByEmail(String email){
+        for(Customer c: customers){
+            if(c.getEmail().equalsIgnoreCase(email)){
+                return c;
+            }
+        }
+        return null;
+    }
+
 }

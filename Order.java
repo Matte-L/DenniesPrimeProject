@@ -37,25 +37,43 @@ public class Order {
                 }
                 String[] data = line.split(",");
                 if (data.length!=7){
+                    System.out.println("Skipping order: " + line);
+                    continue;
+                }
                     String customerEmail = data[0];
                     String driverEmail = data[1];
-                    String itemName = data[2];
-                    String itemQuant = data[3];
-                    String[] map = data[4].split(">");
-                    HashMap<String,Integer> hashMap = new HashMap<>();
-                    for(String s : map){
-                        String[] pair = s.split("<");
-                        hashMap.put(pair[0],Integer.parseInt(pair[1]));
+                    String cartString = data[2];
+                    int status = Integer.parseInt(data[5]);
+                    int rating = Integer.parseInt(data[6]);
+                    // looks up customer and driver objects
+
+                    Customer customer = Main.customerManager.findCustomerByEmail(customerEmail);
+                    Driver driver = Main.driverManager.findDriverByEmail(driverEmail);
+
+                    if (customer == null){
+                        System.out.println("Warning: customer not found: " + customerEmail);
+                        continue;
                     }
-                    String status = data[5];
-                    String rating = data[6];
-                    orders.add(new Order(customer,))
+                    if(driver == null){
+                        System.out.println("Warning: driver not found: " + driverEmail);
+                        continue;
+                    }
+
+                    HashMap<String, Integer> cart = new HashMap<>();
+                    String[] pairs = cartString.split(">");
+
+                    for (String p: pairs){
+                        if(p.contains("<")){
+                            String[] split = p.split("<");
+                            cart.put(split[0],Integer.parseInt(split[1]));
+                        }
+                    }
+
+                    Order order = new Order(customer, driver, cart, status, rating);
+                    orders.add(order);
+
                 }
-
-
                 
-
-                }
             } catch (IOException e){
             System.out.println("Error reading orders.");
         }
