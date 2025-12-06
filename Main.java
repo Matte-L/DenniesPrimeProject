@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class Main{
 
     private static Scanner scanner = new Scanner(System.in);
-    private static ArrayList<Order> allOrders = new ArrayList<>();
-    private static CustomerManager customerManager = new CustomerManager();
-    private static DriverManager DriverManager = new DriverManager();
+    public static ArrayList<Order> allOrders = Order.importOrders();
+    public static CustomerManager customerManager = new CustomerManager();
+    public static DriverManager DriverManager = new DriverManager();
     public static Menu menu = new Menu();
 
     public static void main(String[] args){
@@ -33,12 +33,12 @@ public class Main{
         switch (choice){
             case 1: 
                 activeUser = CustomerManager.customerSignup();
-                createOrder();
+                createOrder(activeUser);
                 break;
 
             case 2: 
                 activeUser = customerManager.customerLogin();
-                createOrder();
+                createOrder(activeUser);
                 break;
             
             case 3: 
@@ -47,7 +47,7 @@ public class Main{
                 break;
             
             case 4: 
-                createOrder();
+                createOrder(null);
                 break;
 
             case 5: 
@@ -86,33 +86,37 @@ public class Main{
 
 
 
-    private static Order createOrder(){  // CREATE ORDER ========================================
+    private static Order createOrder(Person c){  // CREATE ORDER ========================================
         
         System.out.println(" --- Create an Order --- ");
 
         Main.menu.viewMenu();
 
-        Order order = new Order();
+        Order order = new Order(c);
         boolean addingItems = true;
 
-        System.out.println("What would you like ?");
-        System.out.println("Enter 'go away' when you are finished");
+        System.out.println("What item number would you like?");
+        System.out.println("Enter '0' when you are finished");
 
 
         while(addingItems){
-            System.out.print("Item: ");
-            String input = scanner.nextLine();
+            System.out.print("Item number: ");
+            int input = getIntInput();
 
-            if(input.equalsIgnoreCase("go away")){  // ENDS THE ORDER ========================
+            if (input==0){
                 System.out.println("Thank-you!");
                 addingItems = false;
-            }else if (input.trim().isEmpty()){ // avoids white space so empty items aren't added to the list like " ". 
-                System.out.println("Please enter a valid item name");
-            }else{
-                
-                order.addItem(input);
-                System.out.println(input + " added to order");
+                order.cartPrint();
+                break;
+            } else if (input>0&&input<=Main.menu.getMenuItems().size()){
+                    order.addItem(Main.menu.getMenuItems().keySet().toArray(new String[0])[input-1]);
+                    System.out.println(Main.menu.getMenuItems().keySet().toArray()[input-1]+" added to order");
+            } else{
+                System.out.println("Invalid Number");
             }
+            System.out.println("Your total is: "+ order.total());
+            Main.menu.viewMenu();
+            System.out.println("Enter '0' to complete order.");
         }
         return order;
     }

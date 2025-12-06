@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Order {
     private Customer customer;
@@ -7,7 +8,13 @@ public class Order {
     private int status;
     private int rating;
 
-    public Order(){}
+    public Order(){
+        cart = new HashMap<>();
+    }
+    public Order(Person c){
+        super();
+        customer = (Customer)c;
+    }
 
     public Order(Customer customer, Driver driver, HashMap<String,Integer> cart, int status, int rating){ //default toTxt constructor
         this.customer = customer;
@@ -16,11 +23,21 @@ public class Order {
         this.status = status;
         this.rating = rating;
     }
+    public static ArrayList<Order> importOrders(){
+        ArrayList<Order> orders = new ArrayList<>();
+
+        return orders;
+    }
 
     public void assignDriver(){
         
     }
-
+    public int getRating(){
+        return rating;
+    }
+    public void setRating(int rating){
+        this.rating=rating;
+    }
     public String total(){         //returns total price of order formatted
         int total = 0;
         for (String itemName : cart.keySet()){
@@ -35,10 +52,25 @@ public class Order {
     public Customer getCustomer(){
         return customer;
     }
+    public Driver getDriver(){
+        return driver;
+    }
+    public void setDriver(Driver driver){
+        this.driver = driver;
+    }
 
     public void addItem(String itemName){
-        cart.putIfAbsent(itemName,1);
-        cart.put(itemName,cart.get(itemName)+1);
+        if (cart.containsKey(itemName)){
+            cart.put(itemName,cart.get(itemName)+1);
+        } else {
+        cart.put(itemName,1);
+        }
+    }
+    public void cartPrint(){
+        for(String name : cart.keySet()){
+            System.out.println(name + " x"+cart.get(name));
+        }
+        System.out.println("Your total is: "+ total());
     }
 
     public void setStatus(int status){

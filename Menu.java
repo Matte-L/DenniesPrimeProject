@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
-	public HashMap<String, Integer> menuItems = new HashMap<>();
+	private HashMap<String, Integer> menuItems = new HashMap<>();
 
 	Scanner input = new Scanner(System.in);
 	int counter = 0;
@@ -30,9 +30,11 @@ public class Menu {
 		}
 	}
 	public int getPrice(String name){
-		return menuItems.get(name);
+		return menuItems.getOrDefault(name,-1);
 	}
-
+	public HashMap<String, Integer> getMenuItems(){
+		return menuItems;
+	}
     public Menu(){
         menuItems = new HashMap<>();
         char c;
