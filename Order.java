@@ -29,97 +29,89 @@ public class Order {
     }
     public static ArrayList<Order> importOrders(){
         ArrayList<Order> orders = new ArrayList<>();
-
+        String line;
         try (BufferedReader reader = new BufferedReader(new FileReader("orders.txt"))){
-            char c;
-            String customerEmail = "";
-            String driverEmail = "";
-            String itemName = "";
-            String itemQuant = "";
-            HashMap<String,Integer> itemMap = new HashMap<>();
-            String status = "";
-            String rating = "";
-            int state = 0;
-            boolean subState = true;
-            while (reader.ready()){
-                c = (char)reader.read();
+            while((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length!=5){
+                    System.out.println("Skipping order: " + line);
+                    continue;
+                }
+                    String customerEmail = data[0];
+                    String driverEmail = data[1];
+                    String cartString = data[2];
 
+                    int status = Integer.parseInt(data[3]);
+                    int rating = Integer.parseInt(data[4]);
+                    // looks up customer and driver objects
 
-                switch (c){
-                    case '\n':
-                        Customer cust = null;
-                        Driver driv = null;
-                        for (Customer cu : Main.customerManager.getCustomers()){
-                            if (cu.getEmail().equals(customerEmail)){
-                                cust = cu;
-                            }
+                    Customer customer = Main.customerManager.findCustomerByEmail(customerEmail);
+                    Driver driver = Main.driverManager.findDriverByEmail(driverEmail);
+
+                    if (customer == null){
+                        System.out.println("Warning: customer not found: " + customerEmail);
+                        continue;
+                    }
+                    if(driver == null){
+                        System.out.println("Warning: driver not found: " + driverEmail);
+                        if (status == 1){
+                            
+                        }else{
+                            continue;
                         }
-                        for (Driver dr : Main.driverManager.getDrivers()){
-                            if (dr.getEmail().equals(driverEmail)){
-                                driv = dr;
-                            }
+                    }
+
+                    HashMap<String, Integer> cart = new HashMap<>();
+                    String[] pairs = cartString.split(">");
+
+                    for (String p: pairs){
+                        if(p.contains("<")){
+                            String[] split = p.split("<");
+                            cart.put(split[0],Integer.parseInt(split[1]));
                         }
-                        orders.add(new Order(cust,driv,itemMap,Integer.parseInt(status.trim()),Integer.parseInt(rating.trim())));
-                        break;
-                    case '|':
-                        state++;
-                        break;
-                    case '<':
-                        subState = false;
-                        break;
-                    case '>':
-                        subState = true;
-                        itemMap.put(itemName,Integer.parseInt(itemQuant.trim()));
-                        break;
-                    default:
-                        switch (state){
-                            case 0:
-                                customerEmail+=c;
-                                break;
-                            case 1:
-                                driverEmail+=c;
-                            case 2:
-                                if (subState){
-                                    itemName+=c;
-                                } else{
-                                    itemQuant+=c;
-                                }
-                                break;
-                            case 3:
-                                status+=c;
-                                break;
-                            case 4:
-                                rating+=c;
-                                break;
-                            default:
-                                System.out.println("Error loading orders.");
-                        }
+                    }
+
+                    Order order = new Order(customer, driver, cart, status, rating);
+                    orders.add(order);
 
                 }
-            }
-        } catch (IOException e){
+                
+            } catch (IOException e){
             System.out.println("Error reading orders.");
         }
-
+        System.out.println("Orders imported");
         return orders;
     }
     
     public static void exportOrders(){
         try (PrintWriter writer = new PrintWriter("orders.txt")){
             for (Order order : Main.allOrders){
-                writer.write(order.getCustomer().getEmail()+"|"+order.getDriver().getEmail()+'|');
-                for (String key : order.getCart().keySet()){
-                    writer.write(key + "<"+order.getCart().get(key)+">");
+                writer.write(order.getCustomer().getEmail()+",");
+                if (order.getDriver()!=null){
+                    writer.write(order.getDriver().getEmail());
                 }
-                writer.write("|"+order.getStatus()+"|"+order.getRating()+'\n');
+                writer.write(",");
+                int count = 0;
+                for (String key : order.getCart().keySet()){
+                    count++;
+                    writer.write(key + "<"+order.getCart().get(key));
+                    if (count < order.getCart().size()){
+                        writer.write(">");
+                    }
+                }
+                writer.write(","+order.status+","+order.getRating()+'\n');
             }
+            System.out.println("Orders exported");
         } catch (IOException e){
             System.out.println("Error exporting orders to file.");
         }
     }
 
     public void assignDriver(){
-        
+        driver = Main.driverManager.giveTopDriver();
     }
     public int getRating(){
         return rating;

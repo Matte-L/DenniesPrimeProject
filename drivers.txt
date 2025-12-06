@@ -1,2 +1,1 @@
-matty,pass,(532),mat@cuesta,fiat,1324.31,0.18753436411649793
-Matty,pass,124,asdf,fiat,152341.212,0.35549717627429256
+Matty,pass,805,mat@mail.com,fiat,123414.12,5.647830977636563

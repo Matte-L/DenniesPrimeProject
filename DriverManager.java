@@ -1,19 +1,57 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
+import java.util.Comparator;
 
 public class DriverManager{
+    private ArrayList<Driver> drivers = new ArrayList<>();
 
+    public DriverManager(){
+        String line; 
+        try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
+            while ((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }                
+
+            String[] data = line.split(",");
+            if (data.length!=7){
+                System.out.println("Error reading line of Driver");
+                continue;
+            }
+            String name = data[0];
+            String password = data[1];
+            String phone = data[2];
+            String email = data[3];
+            String model = data[4];
+            double odo = Double.parseDouble(data[5]);
+            double rating = Double.parseDouble(data[6]);
+            drivers.add(new Driver(password,name,phone,email,model,odo,rating));
+            }
+            System.out.println("Drivers imported");
+        }catch (IOException e){
+            System.out.println("Error reading drivers");
+        }
+        for (Driver d : drivers){
+            if (d.getCurrentOrder()==null){
+                driverQ.add(d);
+            }
+        }
+
+    }
     public Driver createDriver(String password, String name, String phoneNumber, String email, String carModel, double odometer, double raiting){
         Driver newDriver = new Driver(password, name, phoneNumber, email, carModel, odometer, raiting);
 
-        Main.DriverManager.getDrivers().add(newDriver);        
+        drivers.add(newDriver);        
         return newDriver;
     }
-
+    private PriorityQueue<Driver> driverQ = new PriorityQueue<>( //stores all available drivers sorted by rating
+        Comparator.comparingDouble(Driver::getRaiting)
+    );
     public void driverLogin(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
         Scanner scnr = new Scanner(System.in);
@@ -35,93 +73,47 @@ public class DriverManager{
         } while (!scnr.hasNextDouble());
         double odometer = scnr.nextDouble();
 
-        double raiting = Math.random();
+        double raiting = Math.random()*10;
         drivers.add(new Driver(password,name,phoneNumber,email,carModel,odometer,raiting));       
         System.out.println("Driver " + name + " signed up.");
-    }
-    public void importDrivers(){
-        String name = "";
-        String password = "";
-        String phone = "";
-        String email = "";
-        String model = "";
-        String odo = "";
-        String rating = "";
-        int state = 0;
-        try(BufferedReader reader = new BufferedReader(new FileReader("drivers.txt"))){
-            char c;
-            while (reader.ready()){
-                c = (char)reader.read();
-
-                switch(c){
-                    case('\n'):
-                        drivers.add(new Driver(password,name,phone,email,model,Double.parseDouble(odo.trim()),Double.parseDouble(rating.trim())));
-                        name = "";
-                        password = "";
-                        phone = "";
-                        email = "";
-                        model = "";
-                        odo = "";
-                        rating = "";
-                        state = 0;
-                        break;
-                    case(','):
-                        state++;
-                        break;
-                    default:
-                        switch (state){
-                            case 0:
-                                name+=c;
-                                break;
-                            case 1:
-                                password+=c;
-                                break;
-                            case 2:
-                                phone += c;
-                                break;
-                            case 3:
-                                email +=c;
-                                break;
-                            case 4:
-                                model+=c;
-                                break;
-                            case 5:
-                                odo+=c;
-                                break;
-                            case 6:
-                                rating +=c;
-                                break;
-                            default:
-                                System.out.println("Error writing drivers.");
-                        }
-
-                }
-            }
-        } catch (Exception e){
-            System.out.println("Error importing drivers.");
-        }
     }
 
     public void saveDriverToFile(){
          try(PrintWriter writer = new PrintWriter("drivers.txt")){
                 for (Driver d: drivers) {
-                    writer.println(d.getName() +","+ d.getPassword()+"," + d.getPhoneNumber() + "," + d.getEmail() + "," + d.getCarModel() + "," + d.getOdometer() + "," + d.getRaiting()+"\n");
+                    writer.println(d.getName() +","+ d.getPassword()+"," + d.getPhoneNumber() + "," + d.getEmail() + "," + d.getCarModel() + "," + d.getOdometer() + "," + d.getRaiting());
                 }
             
-         }catch (FileNotFoundException e){
+         }catch (IOException e){
             System.out.println("Error saving driver data: " + e.getMessage());
         }
         System.out.println("Drivers exported.");
     }
 
 
-private ArrayList<Driver> drivers = new ArrayList<>();
 
-public void addDriver(Driver d){
-    drivers.add(d);
-}
 
-public ArrayList<Driver> getDrivers(){
-    return drivers;
-}
+    public void addDriver(Driver d){
+        drivers.add(d);
+    }
+    public Driver giveTopDriver(){
+        return driverQ.poll();
+    }
+
+    public ArrayList<Driver> getDrivers(){
+        return drivers;
+    }
+
+    public Driver findDriverByEmail(String email){
+        for (Driver d : drivers){
+            if (d.getEmail().equalsIgnoreCase(email)){
+                return d;
+            }
+        }
+        return null;
+    }
+    
+
+
+
 }

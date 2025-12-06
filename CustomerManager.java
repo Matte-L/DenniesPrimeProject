@@ -7,55 +7,33 @@ import java.io.IOException;
 import java.util.Scanner;
 public class CustomerManager {
     private ArrayList<Customer> customers = new ArrayList<>();
-    public void importCustomers(){
-        char c;
-        String name = "";
-        String phone = "";
-        String email = "";
-        String password = ""; 
-        int state = 0; 
+    public CustomerManager(){
+        String line; 
         try(BufferedReader reader = new BufferedReader(new FileReader("customers.txt"))){
-            while (reader.ready()){
-                c = (char)reader.read();
-                switch (c){
-                    case '\n':
-                        customers.add(new Customer(password, name, phone,email));
-                        name = "";
-                        phone = "";
-                        email = "";
-                        password = ""; 
-                        state = 0;
-                        break;
-                    case '|':
-                        state++;
-                        break;
-                    default:
-                        switch(state){
-                            case 0:
-                                email+=c;
-                                break;
-                            case 1:
-                                password+=c;
-                                break;
-                            case 2:
-                                name+=c;
-                                break;
-                            case 3:
-                                phone+=c;
-                                break;
-                            default:
-                                System.out.println("txt file corruption");
+            while ((line = reader.readLine())!=null){
+                if (line.trim().isEmpty()){
+                    continue;
+                }                
 
-                        }
-                } 
+            String[] data = line.split(",");
+            if (data.length!=4){
+                System.out.println("Error reading line of Customer");
+                continue;
             }
-            reader.close();
+            String email = data[0];
+            String password = data[1];
+            String name = data[2];
+            String phone = data[3];
+            customers.add(new Customer(password,name,phone,email));
+            }
         } catch (FileNotFoundException e){
             System.out.println("File not found.");
         }catch (IOException e){
             System.out.println("IO error");
         }
+        System.out.println("Customers imported");
     }
+    
     public Customer createCustomer(String name, String phone, String email, String password){
 
         Customer customer = new Customer(password, name, phone, email);
@@ -89,7 +67,7 @@ public class CustomerManager {
         try(PrintWriter writer = new PrintWriter("customers.txt")){
 
             for (Customer c: customers){
-                writer.println(c.getEmail() + "|" + c.getPassword() + "|" + c.getName() + "|" + c.getPhoneNumber());
+                writer.println(c.getEmail() + "," + c.getPassword() + "," + c.getName() + "," + c.getPhoneNumber());
                 }
             System.out.println("Customer list has been saved to customers.txt");
         }catch (FileNotFoundException e){
@@ -130,4 +108,14 @@ public class CustomerManager {
     public ArrayList<Customer> getCustomers(){
         return customers;
     }
+
+    public Customer findCustomerByEmail(String email){
+        for(Customer c: customers){
+            if(c.getEmail().equalsIgnoreCase(email)){
+                return c;
+            }
+        }
+        return null;
+    }
+
 }
