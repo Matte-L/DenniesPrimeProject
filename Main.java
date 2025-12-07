@@ -4,14 +4,22 @@ import java.util.Scanner;
 public class Main{
 
     private static Scanner scanner = new Scanner(System.in);
-    public static ArrayList<Order> allOrders = Order.importOrders();
     public static CustomerManager customerManager = new CustomerManager();
-    public static DriverManager DriverManager = new DriverManager();
+    public static DriverManager driverManager = new DriverManager();
     public static Menu menu = new Menu();
+    public static ArrayList<Order> allOrders = Order.importOrders();
 
     public static void main(String[] args){
-        
-        customerManager.importCustomers();
+        System.out.println();
+        System.out.println("== Current customer list ==");
+        for(Customer c : customerManager.getCustomers()){
+            System.out.println(c.getEmail());
+        }
+        System.out.println();
+        System.out.println("== Current driver list ==");
+        for(Driver d : driverManager.getDrivers()){
+            System.out.println(d.getEmail());
+        }
         Person activeUser;
     
     boolean running = true; // keeps it CLI running until we exit in the switch cases
@@ -21,8 +29,8 @@ public class Main{
         System.out.println("\n====== Dennie's Prime Delivery ======");
         System.out.println("1. Customer Sign Up");
         System.out.println("2. Customer Log In");
-        System.out.println("3. Driver Login");
-        System.out.println("4. Create an Order");
+        System.out.println("3. Driver Signup");
+        System.out.println("4. Driver Login");
         System.out.println("5. View Menu");
         System.out.println("6. Manager Menu");
         System.out.println("7. Exit");
@@ -32,23 +40,25 @@ public class Main{
 
         switch (choice){
             case 1: 
-                activeUser = CustomerManager.customerSignup();
+                activeUser = customerManager.customerSignup();
+                customerManager.saveCustomerToFile();
                 createOrder(activeUser);
+                Order.exportOrders();       // MOVED TO CREATE ORDER UPON CUSTOMER SIGNUP RATHER UPON EXITING PROGRAM
                 break;
 
             case 2: 
                 activeUser = customerManager.customerLogin();
                 createOrder(activeUser);
+                Order.exportOrders();       // MOVED TO CREATE ORDER UPON CUSTOMR LOGIN RATHER UPON EXITING PROGRAM
                 break;
             
             case 3: 
-                driverLogin();
-                // STILL NEEDS WORK
-                
+                driverManager.driverSignup();
+                driverManager.saveDriverToFile();
                 break;
             
             case 4: 
-                createOrder(null);
+                driverManager.driverLogin();
                 break;
 
             case 5: 
@@ -56,11 +66,13 @@ public class Main{
                 break;
             
             case 6: 
-                ManagerManager.managerLogin(customerManager, DriverManager, allOrders);
+                ManagerManager.managerLogin(customerManager, driverManager, allOrders);
                 break;
 
             case 7:
-                customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC 
+                //customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC           [[[THESE WERE MOVED TO DESIGNATED CASE TO WRITE AFTER EACH SIGNUP]]]
+                //driverManager.saveDriverToFile();
+                //Order.exportOrders();
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
@@ -80,19 +92,18 @@ public class Main{
             scanner.next();
         }
         int val = scanner.nextInt();
-        scanner.nextLine();
+        scanner.reset();
         return val;
     }
 
 
 
     private static Order createOrder(Person c){  // CREATE ORDER ========================================
-        
+        Customer cust = (Customer)c;
         System.out.println(" --- Create an Order --- ");
 
         Main.menu.viewMenu();
-
-        Order order = new Order(c);
+        cust.setOrder(new Order(c));
         boolean addingItems = true;
 
         System.out.println("What item number would you like?");
@@ -101,91 +112,31 @@ public class Main{
 
         while(addingItems){
             System.out.print("Item number: ");
-            int input = getIntInput();
+            int input = Main.getIntInput();
 
             if (input==0){
                 System.out.println("Thank-you!");
                 addingItems = false;
-                order.cartPrint();
+                cust.getOrder().cartPrint();
                 break;
             } else if (input>0&&input<=Main.menu.getMenuItems().size()){
-                    order.addItem(Main.menu.getMenuItems().keySet().toArray(new String[0])[input-1]);
+                    cust.getOrder().addItem(Main.menu.getMenuItems().keySet().toArray(new String[0])[input-1]);
                     System.out.println(Main.menu.getMenuItems().keySet().toArray()[input-1]+" added to order");
             } else{
                 System.out.println("Invalid Number");
             }
-            System.out.println("Your total is: "+ order.total());
+            System.out.println("Your total is: "+ cust.getOrder().total());
             Main.menu.viewMenu();
             System.out.println("Enter '0' to complete order.");
         }
-        return order;
+        allOrders.add(cust.getOrder());
+        cust.getOrder().assignDriver();
+        return cust.getCurrentOrder();
     }
 
 
 
-    private static void driverLogin(){      // DRIVER LOGIN METHOD
-        System.out.println(" --- Driver Login --- ");
 
-        System.out.println("Enter driver name");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter your car model");
-        String carModel = scanner.nextLine();
-
-        System.out.println("Enter your phone number");
-        String phoneNumber = scanner.nextLine();        
-
-        System.out.println("Enter your current odometer");
-        double odometer = scanner.nextDouble();
-
-        System.out.println("Enter your email");
-        String email = scanner.nextLine();
-        String password = "DriverPassword"; 
-
-
-        String driverID = "Driver" + (int)(Math.random() * 10);
-        double raiting = (int)(Math.random());
-        Driver newDriver = DriverManager.createDriver(password, name, phoneNumber, email, carModel, odometer, raiting);
-
-        System.out.println("Driver " + name + "logged in.");
-        System.out.println("Driver ID: " + driverID);
-
-        System.out.println("What would you like to do?");
-        System.out.println("1: Change car model");
-        System.out.println("2: View order options");
-        System.out.println("3: Set odometer");
-        System.out.println("4: View Raiting");
-        int option = scanner.nextInt();
-
-
-        switch(option){
-            case 1:
-                System.out.println("Input your current car model: ");
-                newDriver.setCarModel(scanner.nextLine());
-                System.out.println("New car model is " + newDriver.getCarModel());
-                break;
-            case 2:
-                System.out.println("Current Orders: ");
-                newDriver.getCurrentOrder();
-                break;
-            case 3:
-                System.out.println("What is your current odometer?");
-                int newOdometer = scanner.nextInt();
-                System.out.println("Current odometer: " + newOdometer);
-                System.out.println("Miles Driven: " + (newOdometer - newDriver.getOdometer));
-                newDriver.setOdometer(newOdometer);
-                break;
-            case 4:
-                System.out.println(newDriver.getRaiting());
-                break;
-            case 5:
-                DriverManager.saveDriverToFile(); 
-                running = false;
-                break;
-        }
-
-       
-    }
     
 
 

@@ -1,4 +1,4 @@
-vincent.garner.com,pwe,vincent garner,805888888
-matt.com,pwe,Matt,555-5555
-manus.com,pwe,manus,555-5555
-joseph.com,pwe,joseph,555-5555
+vincent@gmail.com,password,vincent garner,555-555-5555
+Manus@gmail.com,password,Manus,555-555-5555
+Matt@gmail.com,password,Matt,555-555-5555
+Joseph@gmail.com,password,Joseph,555-555-5555
