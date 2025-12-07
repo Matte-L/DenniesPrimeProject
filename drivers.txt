@@ -1,8 +1,1 @@
-Matty,pass,805,mat@mail.com,fiat,123414.12,5.647830977636563
-<<<<<<< Updated upstream
-vincent,pwe,8058881773,vincent.com,toyota,100.0,3.7062593724103
-tim,pwe,80588,tim.com,toyo,100.0,5.859928123850489
-=======
-timothy,pwe,805,tim.com,toyo,100.0,1.4179418754636486
-a driver,pass,9888-888,a driver's email,driver's car ,100.0,5.458894261595591
->>>>>>> Stashed changes
+Driver1,password,555-555-5555,driver1@gmail.com,toyota,100.0,6.515246899182971

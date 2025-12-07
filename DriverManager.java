@@ -52,7 +52,7 @@ public class DriverManager{
     private PriorityQueue<Driver> driverQ = new PriorityQueue<>( //stores all available drivers sorted by rating
         Comparator.comparingDouble(Driver::getRaiting)
     );
-    public void driverLogin(){      // DRIVER LOGIN METHOD
+    public void driverSignup(){      // DRIVER LOGIN METHOD
         System.out.println(" --- Driver Login --- ");
         Scanner scnr = new Scanner(System.in);
         System.out.println("Enter driver name");
@@ -110,6 +110,31 @@ public class DriverManager{
                 return d;
             }
         }
+        return null;
+    }
+
+    public Driver driverLogin(){  // DRIVER LOG IN ADDED
+        String temp;
+        Scanner scnr = new Scanner(System.in);
+        boolean stuck = true;
+        while (stuck == true){
+            System.out.println("Enter you email:");
+            temp = scnr.nextLine();
+            for (Driver d: drivers){
+                if (d.getEmail().equalsIgnoreCase(temp)){
+                    while (stuck == true){
+                        System.out.println("Enter your password: (hint)"+d.getPassword());
+                        if (d.getPassword().equals(scnr.nextLine())){
+                            System.out.println("Welcome "+ d.getName());
+                            return d;
+                        }
+                        System.out.println("Incorrect password.");
+                    }
+                }
+            }
+            System.out.println("Email not found.");
+        }
+        scnr.close();
         return null;
     }
     

@@ -10,7 +10,6 @@ public class Main{
     public static ArrayList<Order> allOrders = Order.importOrders();
 
     public static void main(String[] args){
-<<<<<<< Updated upstream
         System.out.println();
         System.out.println("== Current customer list ==");
         for(Customer c : customerManager.getCustomers()){
@@ -18,13 +17,6 @@ public class Main{
         }
         System.out.println();
         System.out.println("== Current driver list ==");
-=======
-        System.out.println("\n==-- CUSTOMER LIST --==\n");
-        for(Customer c : customerManager.getCustomers()){
-            System.out.println(c.getEmail());
-        }
-        System.out.println("\n==-- DRIVER LIST --== \n");
->>>>>>> Stashed changes
         for(Driver d : driverManager.getDrivers()){
             System.out.println(d.getEmail());
         }
@@ -38,7 +30,7 @@ public class Main{
         System.out.println("1. Customer Sign Up");
         System.out.println("2. Customer Log In");
         System.out.println("3. Driver Signup");
-        System.out.println("4. Create an Order");
+        System.out.println("4. Driver Login");
         System.out.println("5. View Menu");
         System.out.println("6. Manager Menu");
         System.out.println("7. Exit");
@@ -51,24 +43,22 @@ public class Main{
                 activeUser = customerManager.customerSignup();
                 customerManager.saveCustomerToFile();
                 createOrder(activeUser);
+                Order.exportOrders();       // MOVED TO CREATE ORDER UPON CUSTOMER SIGNUP RATHER UPON EXITING PROGRAM
                 break;
 
             case 2: 
                 activeUser = customerManager.customerLogin();
                 createOrder(activeUser);
+                Order.exportOrders();       // MOVED TO CREATE ORDER UPON CUSTOMR LOGIN RATHER UPON EXITING PROGRAM
                 break;
             
             case 3: 
-                driverManager.driverLogin();
+                driverManager.driverSignup();
                 driverManager.saveDriverToFile();
-<<<<<<< Updated upstream
-=======
-                // STILL NEEDS WORK
->>>>>>> Stashed changes
                 break;
             
             case 4: 
-                createOrder(null);
+                driverManager.driverLogin();
                 break;
 
             case 5: 
@@ -80,13 +70,9 @@ public class Main{
                 break;
 
             case 7:
-<<<<<<< Updated upstream
                 //customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC           [[[THESE WERE MOVED TO DESIGNATED CASE TO WRITE AFTER EACH SIGNUP]]]
-=======
-                //customerManager.saveCustomerToFile(); // ADDS LIST OF CUSTOMERS UPON EXITING TO TXT DOC
->>>>>>> Stashed changes
                 //driverManager.saveDriverToFile();
-                Order.exportOrders();
+                //Order.exportOrders();
                 running = false;
                 System.out.println("Thank-you for visiting");
                 break;
